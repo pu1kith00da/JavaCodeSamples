@@ -1,66 +1,42 @@
-//Pulkit Hooda
-/* A freqDist is a wrapper for a Map that will tell us, for a given list of words, how often each word appeared
-in a corpus. You should not need to modify this - you'll only need to use it. */
-
 import java.util.HashMap;
-public class FreqDist
-{
-    HashMap<String, Integer> frequencies;
-    int totalCount;
 
+/* this should work as-is */
+
+public class FreqDist {
+    protected HashMap<String, WordEntry> wordTable;
+    
     public FreqDist()
     {
-        frequencies = new HashMap<String, Integer>();
-        totalCount = 0;
-    }
-
-    public HashMap<String, Integer> getFrequencies()
-    {
-        return frequencies;
-    }
-
-    public void setFrequencies(HashMap<String, Integer> frequencies)
-    {
-        this.frequencies = frequencies;
-    }
-
-    public int getTotalCount()
-    {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount)
-    {
-        this.totalCount = totalCount;
+       wordTable = new HashMap<String, WordEntry>();
     }
     
-    public void add(String newWord)
+    
+    public void addWordEntry(String word, int score)
     {
-        int val;
-        if (frequencies.containsKey(newWord))
+        if (wordTable.containsKey(word))
         {
-           val = frequencies.get(newWord);
-           frequencies.put(newWord, val+1);
+            WordEntry temp = wordTable.get(word);
+            temp.addNewAppearance(score);
         }
         else
         {
-            frequencies.put(newWord, 1);
+            wordTable.put(word, new WordEntry(word, score));
         }
-        totalCount += 1;
     }
-    
-    /* if a word is not present in our frequency dictionary, assume it has a count of 1. */
-    public int get(String newWord)
+
+    public double getAverageScore(String word)
     {
-        if (frequencies.containsKey(newWord))
+        if (wordTable.containsKey(word))
         {
-            return frequencies.get(newWord);
+            return (wordTable.get(word).getAverage());
         }
         else
         {
-            return 1;
+            return 0.0;
         }
+    }
+    public void clear()
+    {
+        wordTable.clear();
     }
 }
-
-//this class is completed
